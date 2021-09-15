@@ -2,5 +2,5 @@ fltk:
     config: cloud_experiment.yaml
 provider:
     domain: gcr.io
-    projectName: experimentdesign289911 
+    projectName: experimentdesign-289911
     imageName: fltk:latest
