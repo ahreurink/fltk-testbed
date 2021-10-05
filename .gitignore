@@ -135,4 +135,7 @@ data/**
 output
 .idea
 
+pForwardKDB
+pForwardTB
+
 logging/**/events.out.**
