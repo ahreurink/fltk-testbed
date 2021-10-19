@@ -1,0 +1,8 @@
+convolutional_layers,2,6
+convolutional_filters,64,2048
+dataset,MNIST,FASHIONMNIST
+linear_layers,1,4
+linear_layer_parameters,512,4096
+cpu_cores,1,4
+number_of_nodes,1,4
+batch_size,1,128
