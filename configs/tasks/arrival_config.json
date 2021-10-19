@@ -8,17 +8,950 @@
         },
         "systemParameters": {
           "dataParallelism": "1",
-          "executorCores": "750m",
+          "executorCores": 4.0,
+          "numberOfNodes": 4.0,
           "executorMemory": "1Gi",
           "action": "train"
         },
         "hyperParameters": {
-          "batchSize": "128",
+          "batchSize": 128.0,
+          "convolutionalFilters": 64.0,
+          "convolutionalLayers": 2.0,
+          "linearLayers": 1.0,
+          "linearLayerParameters": 512.0,
           "maxEpoch": "5",
           "learningRate": "0.01",
-          "learningrateDecay": "0.0002",
-          "layerSize" : "32",
-          "layerAmount" : "2"
+          "learningrateDecay": "0.0002"
+        },
+        "classProbability": 0.1,
+        "priorities": [
+          {
+            "priority": 1,
+            "probability": 1
+          }
+        ]
+      },
+      {
+        "networkConfiguration": {
+          "network": "FashionMNISTCNN",
+          "dataset": "MNIST"
+        },
+        "systemParameters": {
+          "dataParallelism": "1",
+          "executorCores": 1.0,
+          "numberOfNodes": 1.0,
+          "executorMemory": "1Gi",
+          "action": "train"
+        },
+        "hyperParameters": {
+          "batchSize": 16.0,
+          "convolutionalFilters": 64.0,
+          "convolutionalLayers": 6.0,
+          "linearLayers": 1.0,
+          "linearLayerParameters": 512.0,
+          "maxEpoch": "5",
+          "learningRate": "0.01",
+          "learningrateDecay": "0.0002"
+        },
+        "classProbability": 0.1,
+        "priorities": [
+          {
+            "priority": 1,
+            "probability": 1
+          }
+        ]
+      },
+      {
+        "networkConfiguration": {
+          "network": "FashionMNISTCNN",
+          "dataset": "MNIST"
+        },
+        "systemParameters": {
+          "dataParallelism": "1",
+          "executorCores": 1.0,
+          "numberOfNodes": 1.0,
+          "executorMemory": "1Gi",
+          "action": "train"
+        },
+        "hyperParameters": {
+          "batchSize": 16.0,
+          "convolutionalFilters": 2048.0,
+          "convolutionalLayers": 2.0,
+          "linearLayers": 1.0,
+          "linearLayerParameters": 512.0,
+          "maxEpoch": "5",
+          "learningRate": "0.01",
+          "learningrateDecay": "0.0002"
+        },
+        "classProbability": 0.1,
+        "priorities": [
+          {
+            "priority": 1,
+            "probability": 1
+          }
+        ]
+      },
+      {
+        "networkConfiguration": {
+          "network": "FashionMNISTCNN",
+          "dataset": "MNIST"
+        },
+        "systemParameters": {
+          "dataParallelism": "1",
+          "executorCores": 4.0,
+          "numberOfNodes": 4.0,
+          "executorMemory": "1Gi",
+          "action": "train"
+        },
+        "hyperParameters": {
+          "batchSize": 128.0,
+          "convolutionalFilters": 2048.0,
+          "convolutionalLayers": 6.0,
+          "linearLayers": 1.0,
+          "linearLayerParameters": 512.0,
+          "maxEpoch": "5",
+          "learningRate": "0.01",
+          "learningrateDecay": "0.0002"
+        },
+        "classProbability": 0.1,
+        "priorities": [
+          {
+            "priority": 1,
+            "probability": 1
+          }
+        ]
+      },
+      {
+        "networkConfiguration": {
+          "network": "FashionMNISTCNN",
+          "dataset": "FASHIONMNIST"
+        },
+        "systemParameters": {
+          "dataParallelism": "1",
+          "executorCores": 1.0,
+          "numberOfNodes": 1.0,
+          "executorMemory": "1Gi",
+          "action": "train"
+        },
+        "hyperParameters": {
+          "batchSize": 128.0,
+          "convolutionalFilters": 64.0,
+          "convolutionalLayers": 2.0,
+          "linearLayers": 1.0,
+          "linearLayerParameters": 512.0,
+          "maxEpoch": "5",
+          "learningRate": "0.01",
+          "learningrateDecay": "0.0002"
+        },
+        "classProbability": 0.1,
+        "priorities": [
+          {
+            "priority": 1,
+            "probability": 1
+          }
+        ]
+      },
+      {
+        "networkConfiguration": {
+          "network": "FashionMNISTCNN",
+          "dataset": "FASHIONMNIST"
+        },
+        "systemParameters": {
+          "dataParallelism": "1",
+          "executorCores": 4.0,
+          "numberOfNodes": 4.0,
+          "executorMemory": "1Gi",
+          "action": "train"
+        },
+        "hyperParameters": {
+          "batchSize": 16.0,
+          "convolutionalFilters": 64.0,
+          "convolutionalLayers": 6.0,
+          "linearLayers": 1.0,
+          "linearLayerParameters": 512.0,
+          "maxEpoch": "5",
+          "learningRate": "0.01",
+          "learningrateDecay": "0.0002"
+        },
+        "classProbability": 0.1,
+        "priorities": [
+          {
+            "priority": 1,
+            "probability": 1
+          }
+        ]
+      },
+      {
+        "networkConfiguration": {
+          "network": "FashionMNISTCNN",
+          "dataset": "FASHIONMNIST"
+        },
+        "systemParameters": {
+          "dataParallelism": "1",
+          "executorCores": 4.0,
+          "numberOfNodes": 4.0,
+          "executorMemory": "1Gi",
+          "action": "train"
+        },
+        "hyperParameters": {
+          "batchSize": 16.0,
+          "convolutionalFilters": 2048.0,
+          "convolutionalLayers": 2.0,
+          "linearLayers": 1.0,
+          "linearLayerParameters": 512.0,
+          "maxEpoch": "5",
+          "learningRate": "0.01",
+          "learningrateDecay": "0.0002"
+        },
+        "classProbability": 0.1,
+        "priorities": [
+          {
+            "priority": 1,
+            "probability": 1
+          }
+        ]
+      },
+      {
+        "networkConfiguration": {
+          "network": "FashionMNISTCNN",
+          "dataset": "FASHIONMNIST"
+        },
+        "systemParameters": {
+          "dataParallelism": "1",
+          "executorCores": 1.0,
+          "numberOfNodes": 1.0,
+          "executorMemory": "1Gi",
+          "action": "train"
+        },
+        "hyperParameters": {
+          "batchSize": 128.0,
+          "convolutionalFilters": 2048.0,
+          "convolutionalLayers": 6.0,
+          "linearLayers": 1.0,
+          "linearLayerParameters": 512.0,
+          "maxEpoch": "5",
+          "learningRate": "0.01",
+          "learningrateDecay": "0.0002"
+        },
+        "classProbability": 0.1,
+        "priorities": [
+          {
+            "priority": 1,
+            "probability": 1
+          }
+        ]
+      },
+      {
+        "networkConfiguration": {
+          "network": "FashionMNISTCNN",
+          "dataset": "MNIST"
+        },
+        "systemParameters": {
+          "dataParallelism": "1",
+          "executorCores": 1.0,
+          "numberOfNodes": 4.0,
+          "executorMemory": "1Gi",
+          "action": "train"
+        },
+        "hyperParameters": {
+          "batchSize": 16.0,
+          "convolutionalFilters": 64.0,
+          "convolutionalLayers": 2.0,
+          "linearLayers": 4.0,
+          "linearLayerParameters": 512.0,
+          "maxEpoch": "5",
+          "learningRate": "0.01",
+          "learningrateDecay": "0.0002"
+        },
+        "classProbability": 0.1,
+        "priorities": [
+          {
+            "priority": 1,
+            "probability": 1
+          }
+        ]
+      },
+      {
+        "networkConfiguration": {
+          "network": "FashionMNISTCNN",
+          "dataset": "MNIST"
+        },
+        "systemParameters": {
+          "dataParallelism": "1",
+          "executorCores": 4.0,
+          "numberOfNodes": 1.0,
+          "executorMemory": "1Gi",
+          "action": "train"
+        },
+        "hyperParameters": {
+          "batchSize": 128.0,
+          "convolutionalFilters": 64.0,
+          "convolutionalLayers": 6.0,
+          "linearLayers": 4.0,
+          "linearLayerParameters": 512.0,
+          "maxEpoch": "5",
+          "learningRate": "0.01",
+          "learningrateDecay": "0.0002"
+        },
+        "classProbability": 0.1,
+        "priorities": [
+          {
+            "priority": 1,
+            "probability": 1
+          }
+        ]
+      },
+      {
+        "networkConfiguration": {
+          "network": "FashionMNISTCNN",
+          "dataset": "MNIST"
+        },
+        "systemParameters": {
+          "dataParallelism": "1",
+          "executorCores": 4.0,
+          "numberOfNodes": 1.0,
+          "executorMemory": "1Gi",
+          "action": "train"
+        },
+        "hyperParameters": {
+          "batchSize": 128.0,
+          "convolutionalFilters": 2048.0,
+          "convolutionalLayers": 2.0,
+          "linearLayers": 4.0,
+          "linearLayerParameters": 512.0,
+          "maxEpoch": "5",
+          "learningRate": "0.01",
+          "learningrateDecay": "0.0002"
+        },
+        "classProbability": 0.1,
+        "priorities": [
+          {
+            "priority": 1,
+            "probability": 1
+          }
+        ]
+      },
+      {
+        "networkConfiguration": {
+          "network": "FashionMNISTCNN",
+          "dataset": "MNIST"
+        },
+        "systemParameters": {
+          "dataParallelism": "1",
+          "executorCores": 1.0,
+          "numberOfNodes": 4.0,
+          "executorMemory": "1Gi",
+          "action": "train"
+        },
+        "hyperParameters": {
+          "batchSize": 16.0,
+          "convolutionalFilters": 2048.0,
+          "convolutionalLayers": 6.0,
+          "linearLayers": 4.0,
+          "linearLayerParameters": 512.0,
+          "maxEpoch": "5",
+          "learningRate": "0.01",
+          "learningrateDecay": "0.0002"
+        },
+        "classProbability": 0.1,
+        "priorities": [
+          {
+            "priority": 1,
+            "probability": 1
+          }
+        ]
+      },
+      {
+        "networkConfiguration": {
+          "network": "FashionMNISTCNN",
+          "dataset": "FASHIONMNIST"
+        },
+        "systemParameters": {
+          "dataParallelism": "1",
+          "executorCores": 4.0,
+          "numberOfNodes": 1.0,
+          "executorMemory": "1Gi",
+          "action": "train"
+        },
+        "hyperParameters": {
+          "batchSize": 16.0,
+          "convolutionalFilters": 64.0,
+          "convolutionalLayers": 2.0,
+          "linearLayers": 4.0,
+          "linearLayerParameters": 512.0,
+          "maxEpoch": "5",
+          "learningRate": "0.01",
+          "learningrateDecay": "0.0002"
+        },
+        "classProbability": 0.1,
+        "priorities": [
+          {
+            "priority": 1,
+            "probability": 1
+          }
+        ]
+      },
+      {
+        "networkConfiguration": {
+          "network": "FashionMNISTCNN",
+          "dataset": "FASHIONMNIST"
+        },
+        "systemParameters": {
+          "dataParallelism": "1",
+          "executorCores": 1.0,
+          "numberOfNodes": 4.0,
+          "executorMemory": "1Gi",
+          "action": "train"
+        },
+        "hyperParameters": {
+          "batchSize": 128.0,
+          "convolutionalFilters": 64.0,
+          "convolutionalLayers": 6.0,
+          "linearLayers": 4.0,
+          "linearLayerParameters": 512.0,
+          "maxEpoch": "5",
+          "learningRate": "0.01",
+          "learningrateDecay": "0.0002"
+        },
+        "classProbability": 0.1,
+        "priorities": [
+          {
+            "priority": 1,
+            "probability": 1
+          }
+        ]
+      },
+      {
+        "networkConfiguration": {
+          "network": "FashionMNISTCNN",
+          "dataset": "FASHIONMNIST"
+        },
+        "systemParameters": {
+          "dataParallelism": "1",
+          "executorCores": 1.0,
+          "numberOfNodes": 4.0,
+          "executorMemory": "1Gi",
+          "action": "train"
+        },
+        "hyperParameters": {
+          "batchSize": 128.0,
+          "convolutionalFilters": 2048.0,
+          "convolutionalLayers": 2.0,
+          "linearLayers": 4.0,
+          "linearLayerParameters": 512.0,
+          "maxEpoch": "5",
+          "learningRate": "0.01",
+          "learningrateDecay": "0.0002"
+        },
+        "classProbability": 0.1,
+        "priorities": [
+          {
+            "priority": 1,
+            "probability": 1
+          }
+        ]
+      },
+      {
+        "networkConfiguration": {
+          "network": "FashionMNISTCNN",
+          "dataset": "FASHIONMNIST"
+        },
+        "systemParameters": {
+          "dataParallelism": "1",
+          "executorCores": 4.0,
+          "numberOfNodes": 1.0,
+          "executorMemory": "1Gi",
+          "action": "train"
+        },
+        "hyperParameters": {
+          "batchSize": 16.0,
+          "convolutionalFilters": 2048.0,
+          "convolutionalLayers": 6.0,
+          "linearLayers": 4.0,
+          "linearLayerParameters": 512.0,
+          "maxEpoch": "5",
+          "learningRate": "0.01",
+          "learningrateDecay": "0.0002"
+        },
+        "classProbability": 0.1,
+        "priorities": [
+          {
+            "priority": 1,
+            "probability": 1
+          }
+        ]
+      },
+      {
+        "networkConfiguration": {
+          "network": "FashionMNISTCNN",
+          "dataset": "MNIST"
+        },
+        "systemParameters": {
+          "dataParallelism": "1",
+          "executorCores": 4.0,
+          "numberOfNodes": 1.0,
+          "executorMemory": "1Gi",
+          "action": "train"
+        },
+        "hyperParameters": {
+          "batchSize": 16.0,
+          "convolutionalFilters": 64.0,
+          "convolutionalLayers": 2.0,
+          "linearLayers": 1.0,
+          "linearLayerParameters": 4096.0,
+          "maxEpoch": "5",
+          "learningRate": "0.01",
+          "learningrateDecay": "0.0002"
+        },
+        "classProbability": 0.1,
+        "priorities": [
+          {
+            "priority": 1,
+            "probability": 1
+          }
+        ]
+      },
+      {
+        "networkConfiguration": {
+          "network": "FashionMNISTCNN",
+          "dataset": "MNIST"
+        },
+        "systemParameters": {
+          "dataParallelism": "1",
+          "executorCores": 1.0,
+          "numberOfNodes": 4.0,
+          "executorMemory": "1Gi",
+          "action": "train"
+        },
+        "hyperParameters": {
+          "batchSize": 128.0,
+          "convolutionalFilters": 64.0,
+          "convolutionalLayers": 6.0,
+          "linearLayers": 1.0,
+          "linearLayerParameters": 4096.0,
+          "maxEpoch": "5",
+          "learningRate": "0.01",
+          "learningrateDecay": "0.0002"
+        },
+        "classProbability": 0.1,
+        "priorities": [
+          {
+            "priority": 1,
+            "probability": 1
+          }
+        ]
+      },
+      {
+        "networkConfiguration": {
+          "network": "FashionMNISTCNN",
+          "dataset": "MNIST"
+        },
+        "systemParameters": {
+          "dataParallelism": "1",
+          "executorCores": 1.0,
+          "numberOfNodes": 4.0,
+          "executorMemory": "1Gi",
+          "action": "train"
+        },
+        "hyperParameters": {
+          "batchSize": 128.0,
+          "convolutionalFilters": 2048.0,
+          "convolutionalLayers": 2.0,
+          "linearLayers": 1.0,
+          "linearLayerParameters": 4096.0,
+          "maxEpoch": "5",
+          "learningRate": "0.01",
+          "learningrateDecay": "0.0002"
+        },
+        "classProbability": 0.1,
+        "priorities": [
+          {
+            "priority": 1,
+            "probability": 1
+          }
+        ]
+      },
+      {
+        "networkConfiguration": {
+          "network": "FashionMNISTCNN",
+          "dataset": "MNIST"
+        },
+        "systemParameters": {
+          "dataParallelism": "1",
+          "executorCores": 4.0,
+          "numberOfNodes": 1.0,
+          "executorMemory": "1Gi",
+          "action": "train"
+        },
+        "hyperParameters": {
+          "batchSize": 16.0,
+          "convolutionalFilters": 2048.0,
+          "convolutionalLayers": 6.0,
+          "linearLayers": 1.0,
+          "linearLayerParameters": 4096.0,
+          "maxEpoch": "5",
+          "learningRate": "0.01",
+          "learningrateDecay": "0.0002"
+        },
+        "classProbability": 0.1,
+        "priorities": [
+          {
+            "priority": 1,
+            "probability": 1
+          }
+        ]
+      },
+      {
+        "networkConfiguration": {
+          "network": "FashionMNISTCNN",
+          "dataset": "FASHIONMNIST"
+        },
+        "systemParameters": {
+          "dataParallelism": "1",
+          "executorCores": 1.0,
+          "numberOfNodes": 4.0,
+          "executorMemory": "1Gi",
+          "action": "train"
+        },
+        "hyperParameters": {
+          "batchSize": 16.0,
+          "convolutionalFilters": 64.0,
+          "convolutionalLayers": 2.0,
+          "linearLayers": 1.0,
+          "linearLayerParameters": 4096.0,
+          "maxEpoch": "5",
+          "learningRate": "0.01",
+          "learningrateDecay": "0.0002"
+        },
+        "classProbability": 0.1,
+        "priorities": [
+          {
+            "priority": 1,
+            "probability": 1
+          }
+        ]
+      },
+      {
+        "networkConfiguration": {
+          "network": "FashionMNISTCNN",
+          "dataset": "FASHIONMNIST"
+        },
+        "systemParameters": {
+          "dataParallelism": "1",
+          "executorCores": 4.0,
+          "numberOfNodes": 1.0,
+          "executorMemory": "1Gi",
+          "action": "train"
+        },
+        "hyperParameters": {
+          "batchSize": 128.0,
+          "convolutionalFilters": 64.0,
+          "convolutionalLayers": 6.0,
+          "linearLayers": 1.0,
+          "linearLayerParameters": 4096.0,
+          "maxEpoch": "5",
+          "learningRate": "0.01",
+          "learningrateDecay": "0.0002"
+        },
+        "classProbability": 0.1,
+        "priorities": [
+          {
+            "priority": 1,
+            "probability": 1
+          }
+        ]
+      },
+      {
+        "networkConfiguration": {
+          "network": "FashionMNISTCNN",
+          "dataset": "FASHIONMNIST"
+        },
+        "systemParameters": {
+          "dataParallelism": "1",
+          "executorCores": 4.0,
+          "numberOfNodes": 1.0,
+          "executorMemory": "1Gi",
+          "action": "train"
+        },
+        "hyperParameters": {
+          "batchSize": 128.0,
+          "convolutionalFilters": 2048.0,
+          "convolutionalLayers": 2.0,
+          "linearLayers": 1.0,
+          "linearLayerParameters": 4096.0,
+          "maxEpoch": "5",
+          "learningRate": "0.01",
+          "learningrateDecay": "0.0002"
+        },
+        "classProbability": 0.1,
+        "priorities": [
+          {
+            "priority": 1,
+            "probability": 1
+          }
+        ]
+      },
+      {
+        "networkConfiguration": {
+          "network": "FashionMNISTCNN",
+          "dataset": "FASHIONMNIST"
+        },
+        "systemParameters": {
+          "dataParallelism": "1",
+          "executorCores": 1.0,
+          "numberOfNodes": 4.0,
+          "executorMemory": "1Gi",
+          "action": "train"
+        },
+        "hyperParameters": {
+          "batchSize": 16.0,
+          "convolutionalFilters": 2048.0,
+          "convolutionalLayers": 6.0,
+          "linearLayers": 1.0,
+          "linearLayerParameters": 4096.0,
+          "maxEpoch": "5",
+          "learningRate": "0.01",
+          "learningrateDecay": "0.0002"
+        },
+        "classProbability": 0.1,
+        "priorities": [
+          {
+            "priority": 1,
+            "probability": 1
+          }
+        ]
+      },
+      {
+        "networkConfiguration": {
+          "network": "FashionMNISTCNN",
+          "dataset": "MNIST"
+        },
+        "systemParameters": {
+          "dataParallelism": "1",
+          "executorCores": 1.0,
+          "numberOfNodes": 1.0,
+          "executorMemory": "1Gi",
+          "action": "train"
+        },
+        "hyperParameters": {
+          "batchSize": 128.0,
+          "convolutionalFilters": 64.0,
+          "convolutionalLayers": 2.0,
+          "linearLayers": 4.0,
+          "linearLayerParameters": 4096.0,
+          "maxEpoch": "5",
+          "learningRate": "0.01",
+          "learningrateDecay": "0.0002"
+        },
+        "classProbability": 0.1,
+        "priorities": [
+          {
+            "priority": 1,
+            "probability": 1
+          }
+        ]
+      },
+      {
+        "networkConfiguration": {
+          "network": "FashionMNISTCNN",
+          "dataset": "MNIST"
+        },
+        "systemParameters": {
+          "dataParallelism": "1",
+          "executorCores": 4.0,
+          "numberOfNodes": 4.0,
+          "executorMemory": "1Gi",
+          "action": "train"
+        },
+        "hyperParameters": {
+          "batchSize": 16.0,
+          "convolutionalFilters": 64.0,
+          "convolutionalLayers": 6.0,
+          "linearLayers": 4.0,
+          "linearLayerParameters": 4096.0,
+          "maxEpoch": "5",
+          "learningRate": "0.01",
+          "learningrateDecay": "0.0002"
+        },
+        "classProbability": 0.1,
+        "priorities": [
+          {
+            "priority": 1,
+            "probability": 1
+          }
+        ]
+      },
+      {
+        "networkConfiguration": {
+          "network": "FashionMNISTCNN",
+          "dataset": "MNIST"
+        },
+        "systemParameters": {
+          "dataParallelism": "1",
+          "executorCores": 4.0,
+          "numberOfNodes": 4.0,
+          "executorMemory": "1Gi",
+          "action": "train"
+        },
+        "hyperParameters": {
+          "batchSize": 16.0,
+          "convolutionalFilters": 2048.0,
+          "convolutionalLayers": 2.0,
+          "linearLayers": 4.0,
+          "linearLayerParameters": 4096.0,
+          "maxEpoch": "5",
+          "learningRate": "0.01",
+          "learningrateDecay": "0.0002"
+        },
+        "classProbability": 0.1,
+        "priorities": [
+          {
+            "priority": 1,
+            "probability": 1
+          }
+        ]
+      },
+      {
+        "networkConfiguration": {
+          "network": "FashionMNISTCNN",
+          "dataset": "MNIST"
+        },
+        "systemParameters": {
+          "dataParallelism": "1",
+          "executorCores": 1.0,
+          "numberOfNodes": 1.0,
+          "executorMemory": "1Gi",
+          "action": "train"
+        },
+        "hyperParameters": {
+          "batchSize": 128.0,
+          "convolutionalFilters": 2048.0,
+          "convolutionalLayers": 6.0,
+          "linearLayers": 4.0,
+          "linearLayerParameters": 4096.0,
+          "maxEpoch": "5",
+          "learningRate": "0.01",
+          "learningrateDecay": "0.0002"
+        },
+        "classProbability": 0.1,
+        "priorities": [
+          {
+            "priority": 1,
+            "probability": 1
+          }
+        ]
+      },
+      {
+        "networkConfiguration": {
+          "network": "FashionMNISTCNN",
+          "dataset": "FASHIONMNIST"
+        },
+        "systemParameters": {
+          "dataParallelism": "1",
+          "executorCores": 4.0,
+          "numberOfNodes": 4.0,
+          "executorMemory": "1Gi",
+          "action": "train"
+        },
+        "hyperParameters": {
+          "batchSize": 128.0,
+          "convolutionalFilters": 64.0,
+          "convolutionalLayers": 2.0,
+          "linearLayers": 4.0,
+          "linearLayerParameters": 4096.0,
+          "maxEpoch": "5",
+          "learningRate": "0.01",
+          "learningrateDecay": "0.0002"
+        },
+        "classProbability": 0.1,
+        "priorities": [
+          {
+            "priority": 1,
+            "probability": 1
+          }
+        ]
+      },
+      {
+        "networkConfiguration": {
+          "network": "FashionMNISTCNN",
+          "dataset": "FASHIONMNIST"
+        },
+        "systemParameters": {
+          "dataParallelism": "1",
+          "executorCores": 1.0,
+          "numberOfNodes": 1.0,
+          "executorMemory": "1Gi",
+          "action": "train"
+        },
+        "hyperParameters": {
+          "batchSize": 16.0,
+          "convolutionalFilters": 64.0,
+          "convolutionalLayers": 6.0,
+          "linearLayers": 4.0,
+          "linearLayerParameters": 4096.0,
+          "maxEpoch": "5",
+          "learningRate": "0.01",
+          "learningrateDecay": "0.0002"
+        },
+        "classProbability": 0.1,
+        "priorities": [
+          {
+            "priority": 1,
+            "probability": 1
+          }
+        ]
+      },
+      {
+        "networkConfiguration": {
+          "network": "FashionMNISTCNN",
+          "dataset": "FASHIONMNIST"
+        },
+        "systemParameters": {
+          "dataParallelism": "1",
+          "executorCores": 1.0,
+          "numberOfNodes": 1.0,
+          "executorMemory": "1Gi",
+          "action": "train"
+        },
+        "hyperParameters": {
+          "batchSize": 16.0,
+          "convolutionalFilters": 2048.0,
+          "convolutionalLayers": 2.0,
+          "linearLayers": 4.0,
+          "linearLayerParameters": 4096.0,
+          "maxEpoch": "5",
+          "learningRate": "0.01",
+          "learningrateDecay": "0.0002"
+        },
+        "classProbability": 0.1,
+        "priorities": [
+          {
+            "priority": 1,
+            "probability": 1
+          }
+        ]
+      },
+      {
+        "networkConfiguration": {
+          "network": "FashionMNISTCNN",
+          "dataset": "FASHIONMNIST"
+        },
+        "systemParameters": {
+          "dataParallelism": "1",
+          "executorCores": 4.0,
+          "numberOfNodes": 4.0,
+          "executorMemory": "1Gi",
+          "action": "train"
+        },
+        "hyperParameters": {
+          "batchSize": 128.0,
+          "convolutionalFilters": 2048.0,
+          "convolutionalLayers": 6.0,
+          "linearLayers": 4.0,
+          "linearLayerParameters": 4096.0,
+          "maxEpoch": "5",
+          "learningRate": "0.01",
+          "learningrateDecay": "0.0002"
         },
         "classProbability": 0.1,
         "priorities": [
@@ -33,4 +966,3 @@
     "preemptJobs": 0
   }
 ]
-

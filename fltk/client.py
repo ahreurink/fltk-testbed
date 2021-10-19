@@ -44,7 +44,7 @@ class Client(object):
         self.loss_function = self.learning_params.get_loss()()
         self.dataset = self.learning_params.get_dataset_class()(self.config, self.learning_params, self._id,
                                                                 self._world_size)
-        self.model = self.learning_params.get_model_class()()
+        self.model = self.learning_params.get_model_class()(self.learning_params)
         self.device = self._init_device()
 
         self.optimizer: torch.optim.Optimizer

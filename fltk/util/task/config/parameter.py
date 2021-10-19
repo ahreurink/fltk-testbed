@@ -21,6 +21,10 @@ class HyperParameters:
     max_epoch: int = field(metadata=config(field_name="maxEpoch"))
     lr: str = field(metadata=config(field_name="learningRate"))
     lr_decay: str = field(metadata=config(field_name="learningrateDecay"))
+    conv_filters: int = field(metadata=config(field_name="convolutionalFilters"))
+    conv_layers: int = field(metadata=config(field_name="convolutionalLayers"))
+    lin_layers: int = field(metadata=config(field_name="linearLayers"))
+    lin_pars: int = field(metadata=config(field_name="linearLayerParameters"))
 
 @dataclass_json
 @dataclass(frozen=True)

@@ -34,6 +34,10 @@ class LearningParameters:
     learning_decay: float
     loss: str
     optimizer: str
+    conv_filters: int
+    conv_layers: int
+    lin_layers: int
+    lin_pars: int
 
     _available_nets = {
         "CIFAR100RESNET": nets.Cifar100ResNet,
