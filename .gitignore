@@ -138,4 +138,7 @@ pForwardKDB
 pForwardTB
 
 
+pForwardKDB
+pForwardTB
+
 logging/**/events.out.**
