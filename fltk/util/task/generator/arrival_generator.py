@@ -70,7 +70,7 @@ class ExperimentGenerator(ArrivalGenerator):
     _tick_list: List[Arrival] = []
     _alive: bool = False
     _decrement = 10
-    __default_config: Path = Path('configs/tasks/example_arrival_config.json')
+    __default_config: Path = Path('configs/tasks/arrival_config.json')
 
     def __init__(self, custom_config: Path = None):
         super(ExperimentGenerator, self).__init__(custom_config or self.__default_config)
