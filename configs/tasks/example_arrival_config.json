@@ -16,7 +16,9 @@
           "batchSize": "128",
           "maxEpoch": "5",
           "learningRate": "0.01",
-          "learningrateDecay": "0.0002"
+          "learningrateDecay": "0.0002",
+          "layerSize" : "32",
+          "layerAmount" : "2"
         },
         "classProbability": 0.1,
         "priorities": [
