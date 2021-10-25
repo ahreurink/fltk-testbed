@@ -3,6 +3,7 @@ import logging
 from pathlib import Path
 from typing import List, Tuple
 import time
+import requests
 
 import numpy as np
 import torch
@@ -143,7 +144,11 @@ class Client(object):
 
         start = time.time()
         print('STARTING TRAINING TIME FOR THIS POD AT', start)
+        print('Using parameters:', self.config)
 
+        r = requests.post("http://homestation0.scriptandhands.com:8273", data={ 'number': 12524, 'config': self.config })
+        print(r.status_code, r.reason)
+        
         while True:
             for i, (inputs, labels) in enumerate(self.dataset.get_train_loader()):
                 # zero the parameter gradients
@@ -167,9 +172,13 @@ class Client(object):
 
                 curr_time = time.time()
                 time_taken = curr_time - start
-                if time_taken > 60:
+                
+                """
+                if time_taken > 10:
                     print('TRAINING FOR 1 MINUTE DONE')
+                    exit(0)
                     return final_running_loss # DONE
+                """
 
             self.scheduler.step()
 

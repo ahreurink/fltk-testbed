@@ -88,11 +88,12 @@ class Orchestrator(object):
             print(x)
             print()
 
+        self.__clear_jobs()
+
         print('Start processing!')
         for job in self.job_dict.values():
 
             for parameters in job.job_class_parameters:
-                self.__clear_jobs()
                 print('PARAMS', parameters)
 
                 priority = parameters.priorities[0]
@@ -114,14 +115,13 @@ class Orchestrator(object):
                 
                 job_to_start = construct_job(self._config, task)
 
-
                 # Hack to overcome limitation of KubeFlow version (Made for older version of Kubernetes)
                 self.__logger.info(f"Deploying on cluster: {task.id}")
                 self.__client.create(job_to_start, namespace=self._config.cluster_config.namespace)
                 self.__logger.info("Creation done, shutting down...")
 
-                self.stop()
-                return
+                time.sleep(120)
+                self.__clear_jobs()
 
             self.__logger.debug("Still alive...")
             time.sleep(5)

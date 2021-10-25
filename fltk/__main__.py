@@ -30,7 +30,8 @@ def __main__():
         logging.info("Starting in cluster mode.")
         cluster_start(arguments, config)
     elif arguments.mode == 'client':
-        logging.info("Starting in client mode")
+        logging.info("Starting in client mode MODE")
+        print('CLIENT MODE')
         client_start(arguments, config)
         logging.info("Stopping client...")
         exit(0)
