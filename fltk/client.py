@@ -2,6 +2,7 @@ import datetime
 import logging
 from pathlib import Path
 from typing import List, Tuple
+import time
 
 import numpy as np
 import torch
@@ -41,10 +42,15 @@ class Client(object):
         self.learning_params = learning_params
 
         # Create model and dataset
-        self.loss_function = self.learning_params.get_loss()()
-        self.dataset = self.learning_params.get_dataset_class()(self.config, self.learning_params, self._id,
-                                                                self._world_size)
-        self.model = self.learning_params.get_model_class()(self.learning_params)
+        self.loss_function = torch.nn.CrossEntropyLoss()
+        self.dataset = self.learning_params._available_data['MNIST'](self.config, self.learning_params, self._id, self._world_size)
+        
+        self.model = self.learning_params._available_nets['CUSTOM'](
+                                                                    self.learning_params.convolutionalFilters,
+                                                                    self.learning_params.convolutionalLayers,
+                                                                    self.learning_params.linearLayers,
+                                                                    self.learning_params.linearLayerParameters,
+                                                                    self.learning_params.imageSize)
         self.device = self._init_device()
 
         self.optimizer: torch.optim.Optimizer
@@ -68,8 +74,8 @@ class Client(object):
             self.model = torch.nn.parallel.DistributedDataParallel(self.model)
 
         # Currently it is assumed to use an SGD optimizer. **kwargs need to be used to launch this properly
-        self.optimizer = self.learning_params.get_optimizer()(self.model.parameters(),
-                                                              lr=self.learning_params.learning_rate,
+        self.optimizer = torch.optim.SGD(self.model.parameters(),
+                                                              lr=1e-4,
                                                               momentum=0.9)
         self.scheduler = MinCapableStepLR(self.optimizer,
                                           self.config.get_scheduler_step_size(),
@@ -77,7 +83,7 @@ class Client(object):
                                           self.config.get_min_lr())
 
         self.tb_writer = SummaryWriter(
-            str(self.config.get_log_path(self._task_id, self._id, self.learning_params.model)))
+            str(self.config.get_log_path(self._task_id, self._id, 'CUSTOM')))
 
     def stop_learner(self):
         """
@@ -116,7 +122,7 @@ class Client(object):
         default_model_path = Path(self.config.get_default_model_folder_path()).joinpath(model_file)
         load_model_from_file(self.model, default_model_path)
 
-    def train(self, epoch, log_interval: int = 50):
+    def train(self, epoch=0, log_interval: int = 50):
         """
         Function to start training, regardless of DistributedDataParallel (DPP) or local training. DDP will account for
         synchronization of nodes. If extension requires to make use of torch.distributed.send and torch.distributed.recv
@@ -128,39 +134,45 @@ class Client(object):
         @param log_interval: Iteration interval at which to log.
         @type log_interval: int
         """
+
+        # RUN FOR 1 MINUTE
+
         running_loss = 0.0
         final_running_loss = 0.0
         self.model.train()
-        for i, (inputs, labels) in enumerate(self.dataset.get_train_loader()):
-            # zero the parameter gradients
-            self.optimizer.zero_grad()
 
-            # Forward through the net to train
-            outputs = self.model(inputs.to(self.device))
+        start = time.time()
+        print('STARTING TRAINING TIME FOR THIS POD AT', start)
 
-            # Calculate the loss
-            loss = self.loss_function(outputs, labels.to(self.device))
+        while True:
+            for i, (inputs, labels) in enumerate(self.dataset.get_train_loader()):
+                # zero the parameter gradients
+                self.optimizer.zero_grad()
 
-            # Update weights, DPP will account for synchronization of the weights.
-            loss.backward()
-            self.optimizer.step()
+                # Forward through the net to train
+                outputs = self.model(inputs.to(self.device))
 
-            running_loss += float(loss.detach().item())
-            if i % log_interval == 0:
-                self._logger.info('[%d, %5d] loss: %.3f' % (epoch, i, running_loss / log_interval))
-                final_running_loss = running_loss / log_interval
-                running_loss = 0.0
-        self.scheduler.step()
+                # Calculate the loss
+                loss = self.loss_function(outputs, labels.to(self.device))
 
-        # Save model
-        if self.config.should_save_model(epoch):
-            # Note that currently this is not supported in the Framework. However, the creation of a ReadWriteMany
-            # PVC in the deployment charts, and mounting this in the appropriate directory, would resolve this issue.
-            # This can be done by copying the setup of the PVC used to record the TensorBoard information (used by
-            # logger created by the rank==0 node during the training process (i.e. to keep track of process).
-            self.save_model(epoch)
+                # Update weights, DPP will account for synchronization of the weights.
+                loss.backward()
+                self.optimizer.step()
 
-        return final_running_loss
+                running_loss += float(loss.detach().item())
+                if i % log_interval == 0:
+                    self._logger.info('[%d, %5d] loss: %.3f' % (epoch, i, running_loss / log_interval))
+                    final_running_loss = running_loss / log_interval
+                    running_loss = 0.0
+
+                curr_time = time.time()
+                time_taken = curr_time - start
+                if time_taken > 60:
+                    print('TRAINING FOR 1 MINUTE DONE')
+                    return final_running_loss # DONE
+
+            self.scheduler.step()
+
 
     def test(self) -> Tuple[float, float, np.array, np.array, np.array]:
         """
@@ -208,47 +220,6 @@ class Client(object):
         self._logger.debug("Class recall: {}".format(str(class_recall)))
 
         return accuracy, loss, class_precision, class_recall, confusion_mat
-
-    def run_epochs(self) -> List[EpochData]:
-        """
-        Function to run training epochs using the pre-set Hyper-Parameters.
-        @return: A list of data gathered during the execution, containing progress information such as accuracy. See also
-        EpochData.
-        @rtype: List[EpochData]
-        """
-        max_epoch = self.learning_params.max_epoch + 1
-        start_time_train = datetime.datetime.now()
-        epoch_results = []
-        for epoch in range(1, max_epoch):
-            train_loss = self.train(epoch)
-
-            # Let only the 'master node' work on training. Possibly DDP can be used
-            # to have a distributed test loader as well to speed up (would require
-            # aggregation of data.
-            # Example https://github.com/fabio-deep/Distributed-Pytorch-Boilerplate/blob/0206247150720ca3e287e9531cb20ef68dc9a15f/src/datasets.py#L271-L303.
-            elapsed_time_train = datetime.datetime.now() - start_time_train
-            train_time_ms = int(elapsed_time_train.total_seconds() * 1000)
-
-            start_time_test = datetime.datetime.now()
-            accuracy, test_loss, class_precision, class_recall, confusion_mat = self.test()
-
-            elapsed_time_test = datetime.datetime.now() - start_time_test
-            test_time_ms = int(elapsed_time_test.total_seconds() * 1000)
-
-            data = EpochData(epoch_id=epoch,
-                             duration_train=train_time_ms,
-                             duration_test=test_time_ms,
-                             loss_train=train_loss,
-                             accuracy=accuracy,
-                             loss=test_loss,
-                             class_precision=class_precision,
-                             class_recall=class_recall,
-                             confusion_mat=confusion_mat)
-
-            epoch_results.append(data)
-            if self._id == 0:
-                self.log_progress(data, epoch)
-        return epoch_results
 
     def save_model(self, epoch):
         """

@@ -221,12 +221,23 @@ class DeploymentBuilder:
         self._buildDescription.resources = client.V1ResourceRequirements(requests=req_dict,
                                                                          limits=req_dict)
 
+    """
+        "batchSize": experiment[BATCH_SIZE],
+        "convolutionalFilters": experiment[CONVOLUTIONAL_FILTERS],
+        "convolutionalLayers": experiment[CONVOLUTIONAL_LAYERS],
+        "linearLayers": experiment[LINEAR_LAYERS],
+        "linearLayerParameters": experiment[LINEAR_LAYERS_PARAMETERS],
+        "imageSize": experiment[IMAGE_SIZE],
+    """
     def _generate_command(self, config: BareConfig, task: ArrivalTask):
+        cnfg = task.param_conf
         command = (f'python3 -m fltk client {config.config_path} {task.id} '
-                   f'--model {task.network} --dataset {task.dataset} '
-                   f'--optimizer Adam --max_epoch {task.param_conf.max_epoch} '
-                   f'--batch_size {task.param_conf.bs} --learning_rate {task.param_conf.lr} '
-                   f'--decay {task.param_conf.lr_decay} --loss CrossEntropy '
+                   f'--batchSize {cnfg.batchSize} '
+                   f'--convolutionalFilters {cnfg.convolutionalFilters} '
+                   f'--convolutionalLayers {cnfg.convolutionalLayers} '
+                   f'--linearLayers {cnfg.linearLayers} '
+                   f'--linearLayerParameters {cnfg.linearLayerParameters} '
+                   f'--imageSize {cnfg.imageSize} '
                    f'--backend gloo')
         return command.split(' ')
 

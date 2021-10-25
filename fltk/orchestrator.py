@@ -3,6 +3,7 @@ import time
 import uuid
 from queue import PriorityQueue
 from typing import List
+from pathlib import Path
 
 from kubeflow.pytorchjob import PyTorchJobClient
 from kubeflow.pytorchjob.constants.constants import PYTORCHJOB_GROUP, PYTORCHJOB_VERSION, PYTORCHJOB_PLURAL
@@ -12,6 +13,7 @@ from fltk.util.cluster.client import construct_job, ClusterManager
 from fltk.util.config.base_config import BareConfig
 from fltk.util.task.generator.arrival_generator import ArrivalGenerator, Arrival
 from fltk.util.task.task import ArrivalTask
+from fltk.util.task.config.parameter import TrainTask, JobDescription, ExperimentParser, JobClassParameter
 
 
 class Orchestrator(object):
@@ -65,40 +67,58 @@ class Orchestrator(object):
         @return: None
         @rtype: None
         """
+        print('Starting loop...')
         self._alive = True
-        start_time = time.time()
-        if clear:
-            self.__clear_jobs()
-        while self._alive and time.time() - start_time < self._config.get_duration():
-            # 1. Check arrivals
-            # If new arrivals, store them in arrival list
-            while not self.__arrival_generator.arrivals.empty():
-                arrival: Arrival = self.__arrival_generator.arrivals.get()
+
+        CPU_CORES = 2
+        NUMBER_OF_NODES = 4
+
+        pending = []
+        config: Path = Path('configs/tasks/arrival_config.json')
+
+        print('Loading train jobs...')
+        # load all jobs that we are going to run in this session
+        parser = ExperimentParser(config_path=config)
+        experiment_descriptions = parser.parse()
+        self.job_dict = {f'train_job_{indx}': item for indx, item in enumerate(experiment_descriptions)}
+        print('Loading job dict with size', len(self.job_dict))
+        print()
+
+        for x in self.job_dict:
+            print(x)
+            print()
+
+        print('Start processing!')
+        for job in self.job_dict.values():
+
+            for parameters in job.job_class_parameters:
+                self.__clear_jobs()
+                print('PARAMS', parameters)
+
+                priority = parameters.priorities[0]
+
+                inter_arrival_ticks = 0
+                task_id = 0
+                train_task = TrainTask(task_id, parameters, priority)
+
+                arrival = Arrival(inter_arrival_ticks, train_task, task_id)
+
                 unique_identifier: uuid.UUID = uuid.uuid4()
                 task = ArrivalTask(priority=arrival.get_priority(),
-                                   id=unique_identifier,
-                                   network=arrival.get_network(),
-                                   dataset=arrival.get_dataset(),
-                                   sys_conf=arrival.get_system_config(),
-                                   param_conf=arrival.get_parameter_config())
-
-                self.__logger.debug(f"Arrival of: {task}")
-                self.pending_tasks.put(task)
-
-            while not self.pending_tasks.empty():
-                # Do blocking request to priority queue
-                curr_task = self.pending_tasks.get()
-                self.__logger.info(f"Scheduling arrival of Arrival: {curr_task.id}")
-                job_to_start = construct_job(self._config, curr_task)
+                                    id=unique_identifier,
+                                    network=arrival.get_network(),
+                                    dataset=arrival.get_dataset(),
+                                    sys_conf=arrival.get_system_config(),
+                                    param_conf=arrival.get_parameter_config())
+                print(f"Arrival of: {task}")
+                
+                job_to_start = construct_job(self._config, task)
 
 
                 # Hack to overcome limitation of KubeFlow version (Made for older version of Kubernetes)
-                self.__logger.info(f"Deploying on cluster: {curr_task.id}")
+                self.__logger.info(f"Deploying on cluster: {task.id}")
                 self.__client.create(job_to_start, namespace=self._config.cluster_config.namespace)
-                self.deployed_tasks.append(curr_task)
-
-                # TODO: Extend this logic in your real project, this is only meant for demo purposes
-                # For now we exit the thread after scheduling a single task.
+                self.__logger.info("Creation done, shutting down...")
 
                 self.stop()
                 return

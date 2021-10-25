@@ -9,35 +9,38 @@ import fltk.nets as nets
 from fltk.datasets import CIFAR10Dataset, FashionMNISTDataset, CIFAR100Dataset, MNIST
 from fltk.datasets.dataset import Dataset
 
+"""
+        command = (f'python3 -m fltk client {config.config_path} {task.id} '
+                   f'--batchSize {cnfg.batchSize} '
+                   f'--convolutionalFilters {cnfg.convolutionalFilters} '
+                   f'--convolutionalLayers {cnfg.convolutionalLayers} '
+                   f'--linearLayers {cnfg.linearLayers} '
+                   f'--linearLayerParameters {cnfg.linearLayerParameters} '
+                   f'--imageSize {cnfg.imageSize} '
+                   f'--backend gloo')
+                   
+                   """
+
 CLIENT_ARGS: List[Tuple[str, str, str, type]] = \
-    [("model", "md", "Which model to train", str),
-     ("dataset", "ds", "Which dataset to train the model on", str),
-     ("batch_size", "bs",
-      "Number that are 'batched' together in a single forward/backward pass during the optimization steps.", int),
-     ("max_epoch", "ep",
-      "Maximum number of times that the 'training' set instances can be used during the optimization steps", int),
-     ("learning_rate", "lr", "Factor to limit the step size that is taken during each gradient descent step.", float),
-     ("decay", 'dc',
-      "Rate at which the learning rate decreases (i.e. the optimization takes smaller steps", float),
-     ("loss", 'ls', "Loss function to use for optimization steps", str),
-     ("optimizer", 'op', "Which optimizer to use during the training process", str)
+    [
+     ("batchSize", "bs", "", int),
+     ("convolutionalFilters", "cf", "", int),
+     ("convolutionalLayers", "cl", "", int),
+     ("linearLayers", "ll", "", int),
+     ("linearLayerParameters", "lp", "", int),
+     ("imageSize", "is", "", int),
      ]
 
 
 @dataclass(frozen=True)
 class LearningParameters:
-    model: str
-    dataset: str
-    batch_size: int
-    max_epoch: int
-    learning_rate: float
-    learning_decay: float
-    loss: str
-    optimizer: str
-    conv_filters: int
-    conv_layers: int
-    lin_layers: int
-    lin_pars: int
+
+    batchSize: int
+    convolutionalFilters: int
+    convolutionalLayers: int
+    linearLayers: int
+    linearLayerParameters: int
+    imageSize: int
 
     _available_nets = {
         "CIFAR100RESNET": nets.Cifar100ResNet,
@@ -45,7 +48,8 @@ class LearningParameters:
         "CIFAR10CNN": nets.Cifar10CNN,
         "CIFAR10RESNET": nets.Cifar10ResNet,
         "FASHIONMNISTCNN": nets.FashionMNISTCNN,
-        "FASHIONMNISTRESNET": nets.FashionMNISTResNet
+        "FASHIONMNISTRESNET": nets.FashionMNISTResNet,
+        'CUSTOM': nets.CustomModelMNIST
     }
 
     _available_data = {
@@ -120,15 +124,15 @@ def extract_learning_parameters(args: Namespace) -> LearningParameters:
     @return: Parsed learning parameters.
     @rtype: LearningParameters
     """
-    model = args.model
-    dataset = args.dataset
-    batch_size = args.batch_size
-    epoch = args.max_epoch
-    lr = args.learning_rate
-    decay = args.decay
-    loss = args.loss
-    optimizer = args.optimizer
-    return LearningParameters(model, dataset, batch_size, epoch, lr, decay, loss, optimizer)
+
+    batchSize = args.batchSize
+    convolutionalFilters = args.convolutionalFilters
+    convolutionalLayers = args.convolutionalLayers
+    linearLayers = args.linearLayers
+    linearLayerParameters = args.linearLayerParameters
+    imageSize = args.imageSize
+
+    return LearningParameters(batchSize, convolutionalFilters, convolutionalLayers, linearLayers, linearLayerParameters, imageSize)
 
 
 def create_extractor_parser(subparsers):

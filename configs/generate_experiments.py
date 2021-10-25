@@ -2,38 +2,40 @@ from doepy import build
 import json
 import pandas as pd
 
-DATASET = 'dataset'
-CONVOLUTIONAL_LAYERS = 'convolutional_layers'
-CONVOLUTIONAL_FILTERS = 'convolutional_filters'
-LINEAR_LAYERS = 'linear_layers'
-LINEAR_LAYERS_PARAMETERS = 'linear_layer_parameters'
-CPU_CORES = 'cpu_cores'
-NR_NODES = 'number_of_nodes'
-BATCH_SIZE = 'batch_size'
+CONVOLUTIONAL_LAYERS = 'convolutionalLayers'
+CONVOLUTIONAL_FILTERS = 'convolutionalFilters'
+LINEAR_LAYERS = 'linearLayers'
+LINEAR_LAYERS_PARAMETERS = 'linearLayerParameters'
+CORES = 'coresPerNode'
+NR_NODES = 'dataParallelism'
+BATCH_SIZE = 'batchSize'
+IMAGE_SIZE = 'imageSize'
 
 def generate_experiment_config(experiment_table):
     experiments = [{col: val for col, val in zip(experiment_table.columns, experiment)} for experiment in experiment_table.values]
+    print(experiments)
     config = [
         {
             "jobClassParameters": [
                 {
                     "networkConfiguration": {
-                        "network": "FashionMNISTCNN",
-                        "dataset": experiment[DATASET]
+                        "network": "NONE",
+                        "dataset": "NONE"
                     },
                     "systemParameters": {
-                        "dataParallelism": "1",
-                        "executorCores": experiment[CPU_CORES],
-                        "numberOfNodes": experiment[NR_NODES],
+                        "dataParallelism": int(experiment[NR_NODES]),
+                        "executorCores": "750m",
                         "executorMemory": "1Gi",
-                        "action": "train"
+                        "action": "train",
+                        "coresPerNode": int(experiment[CORES])
                     },
                     "hyperParameters": {
-                        "batchSize": experiment[BATCH_SIZE],
-                        "convolutionalFilters": experiment[CONVOLUTIONAL_FILTERS],
-                        "convolutionalLayers": experiment[CONVOLUTIONAL_LAYERS],
-                        "linearLayers": experiment[LINEAR_LAYERS],
-                        "linearLayerParameters": experiment[LINEAR_LAYERS_PARAMETERS],
+                        "batchSize": int(experiment[BATCH_SIZE]),
+                        "convolutionalFilters": int(experiment[CONVOLUTIONAL_FILTERS]),
+                        "convolutionalLayers": int(experiment[CONVOLUTIONAL_LAYERS]),
+                        "linearLayers": int(experiment[LINEAR_LAYERS]),
+                        "linearLayerParameters": int(experiment[LINEAR_LAYERS_PARAMETERS]),
+                        "imageSize": int(experiment[IMAGE_SIZE]),
                         "maxEpoch": "5",
                         "learningRate": "0.01",
                         "learningrateDecay": "0.0002"
@@ -52,6 +54,7 @@ def generate_experiment_config(experiment_table):
         }
     ]
     f = open("config.json", "w")
+    print('DUMPING', config)
     f.write(json.dumps(config))
     f.close()
 

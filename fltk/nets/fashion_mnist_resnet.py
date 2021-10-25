@@ -65,3 +65,4 @@ class FashionMNISTResNet(nn.Module):
         y = self.block3(y)
         y = self.Dense(self.flatten(y))
         return y
+

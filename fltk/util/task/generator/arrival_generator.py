@@ -74,6 +74,7 @@ class ExperimentGenerator(ArrivalGenerator):
 
     def __init__(self, custom_config: Path = None):
         super(ExperimentGenerator, self).__init__(custom_config or self.__default_config)
+        print('LOADING CONFIG INTO EXPERIMENT GENERATOR...')
         self.load_config()
 
     def set_logger(self, name: str = None):
@@ -96,7 +97,9 @@ class ExperimentGenerator(ArrivalGenerator):
         @return: None
         @rtype: None
         """
-        parser = ExperimentParser(config_path=alternative_path or self.configuration_path)
+        path = alternative_path or self.configuration_path
+        print('loading path', path)
+        parser = ExperimentParser(config_path=path)
         experiment_descriptions = parser.parse()
         self.job_dict = {f'train_job_{indx}': item for indx, item in enumerate(experiment_descriptions)}
 

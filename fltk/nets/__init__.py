@@ -6,3 +6,4 @@ from .cifar_10_resnet import Cifar10ResNet, ResNet18, ResNet34, ResNet50, ResNet
 from .cifar_100_vgg import Cifar100VGG, vgg11_bn, vgg13_bn, vgg16_bn, vgg19_bn
 from .reddit_lstm import RNNModel
 from.simple import SimpleMnist, SimpleNet
+from .custom import CustomModelMNIST

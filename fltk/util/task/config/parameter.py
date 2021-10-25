@@ -11,20 +11,19 @@ from dataclasses_json import config, dataclass_json
 class HyperParameters:
     """
     Learning HyperParameters.
-
-    bs: Number of images that are used during each forward/backward phase.
-    max_epoch: Number of times epochs are executed.
-    lr: Learning rate parameter, limiting the step size in the gradient update.
-    lr_decay: How fast the learning rate 'shrinks'.
+        "batchSize": experiment[BATCH_SIZE],
+        "convolutionalFilters": experiment[CONVOLUTIONAL_FILTERS],
+        "convolutionalLayers": experiment[CONVOLUTIONAL_LAYERS],
+        "linearLayers": experiment[LINEAR_LAYERS],
+        "linearLayerParameters": experiment[LINEAR_LAYERS_PARAMETERS],
+        "imageSize": experiment[IMAGE_SIZE],
     """
-    bs: int = field(metadata=config(field_name="batchSize"))
-    max_epoch: int = field(metadata=config(field_name="maxEpoch"))
-    lr: str = field(metadata=config(field_name="learningRate"))
-    lr_decay: str = field(metadata=config(field_name="learningrateDecay"))
-    conv_filters: int = field(metadata=config(field_name="convolutionalFilters"))
-    conv_layers: int = field(metadata=config(field_name="convolutionalLayers"))
-    lin_layers: int = field(metadata=config(field_name="linearLayers"))
-    lin_pars: int = field(metadata=config(field_name="linearLayerParameters"))
+    batchSize: int = field(metadata=config(field_name="batchSize"))
+    convolutionalFilters: int = field(metadata=config(field_name="convolutionalFilters"))
+    convolutionalLayers: int = field(metadata=config(field_name="convolutionalLayers"))
+    linearLayers: int = field(metadata=config(field_name="linearLayers"))
+    linearLayerParameters: int = field(metadata=config(field_name="linearLayerParameters"))
+    imageSize: int = field(metadata=config(field_name="imageSize"))
 
 @dataclass_json
 @dataclass(frozen=True)
@@ -50,6 +49,7 @@ class SystemParameters:
     executor_cores: int = field(metadata=config(field_name="executorCores"))
     executor_memory: str = field(metadata=config(field_name="executorMemory"))
     action: str = field(metadata=config(field_name="action"))
+    cores_per_node: str = field(metadata=config(field_name="coresPerNode"))
 
 
 @dataclass_json
@@ -132,7 +132,12 @@ class ExperimentParser(object):
         should be reflected by the classes used. For more information refer to the dataclasses JSON
         documentation https://pypi.org/project/dataclasses-json/.
         """
+        print('parsing...')
         with open(self.__config_path, 'r') as config_file:
             config_dict = json.load(config_file)
-            job_list = [JobDescription.from_dict(job_description) for job_description in config_dict]
+            print('DICT', config_dict)
+            def x(job_description):
+                print('LOADING DICT DATA', job_description)
+                return JobDescription.from_dict(job_description)
+            job_list = [x(job_description) for job_description in config_dict]
         return job_list

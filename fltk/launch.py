@@ -53,7 +53,7 @@ def launch_client(task_id: str, config: BareConfig = None, learning_params: Lear
 
     client = Client(rank, task_id, world_size, config, learning_params)
     client.prepare_learner(distributed)
-    epoch_data = client.run_epochs()
+    epoch_data = client.train()
     print(epoch_data)
 
 
@@ -81,16 +81,16 @@ def launch_orchestrator(args: Namespace = None, conf: BareConfig = None):
         conf.cluster_config.load_incluster_namespace()
         conf.cluster_config.load_incluster_image()
 
-    arrival_generator = ExperimentGenerator()
+    # arrival_generator = ExperimentGenerator()
     cluster_manager = ClusterManager()
 
-    orchestrator = Orchestrator(cluster_manager, arrival_generator, conf)
+    orchestrator = Orchestrator(cluster_manager, None, conf)
 
     pool = ThreadPool(3)
     logging.info("Starting cluster manager")
     pool.apply(cluster_manager.start)
-    logging.info("Starting arrival generator")
-    pool.apply_async(arrival_generator.start, args=[conf.get_duration()])
+    # logging.info("Starting arrival generator")
+    # pool.apply_async(arrival_generator.start, args=[conf.get_duration()])
     logging.info("Starting orchestrator")
     pool.apply(orchestrator.run)
     pool.join()
