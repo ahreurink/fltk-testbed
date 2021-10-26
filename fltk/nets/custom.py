@@ -18,7 +18,7 @@ class CustomModelMNIST(nn.Module):
         for _ in range(convolutionalLayers):
             ls_conv += [
                 nn.Conv2d(filters, self.convolutionalFilters, stride=1, kernel_size=3, padding=1), # doesn't change image size
-                nn.BatchNorm2d(self.convolutionalFilters),
+                nn.InstanceNorm2d(self.convolutionalFilters),
                 nn.ReLU(),
             ]
             filters = self.convolutionalFilters
@@ -27,7 +27,7 @@ class CustomModelMNIST(nn.Module):
         for _ in range(linearLayers):
             ls_lin += [
                 nn.Linear(filters, self.linearLayerParameters), # doesn't change image size
-                nn.BatchNorm1d(self.linearLayerParameters),
+                nn.LayerNorm(self.linearLayerParameters),
                 nn.ReLU(),
             ]
             filters = self.linearLayerParameters

@@ -3,6 +3,8 @@ import logging
 from pathlib import Path
 from typing import List, Tuple
 import time
+import requests
+import json
 
 import numpy as np
 import torch
@@ -143,7 +145,15 @@ class Client(object):
 
         start = time.time()
         print('STARTING TRAINING TIME FOR THIS POD AT', start)
+        print('Using parameters:', self.config)
 
+        """
+        r = requests.post("http://homestation0.scriptandhands.com:8273", json={ 'type': 'START',
+                                                                                'config': json.dumps(self.learning_params.__dict__) })
+        print(r.status_code, r.reason)
+        """
+
+        bc = 0
         while True:
             for i, (inputs, labels) in enumerate(self.dataset.get_train_loader()):
                 # zero the parameter gradients
@@ -159,6 +169,22 @@ class Client(object):
                 loss.backward()
                 self.optimizer.step()
 
+                # 60.000 images
+                # 60.000 / BS = #batches
+                # batches / minute
+                # #batches / (batches / minute) = minute
+
+                INTERVAL = 32
+
+                bc += 1
+                if bc % INTERVAL == 0:
+                    r = requests.post("http://homestation0.scriptandhands.com:8273", json={ 'type': 'BATCHES_DONE',
+                                                                                            'config': json.dumps(self.learning_params.__dict__),
+                                                                                            'bc': bc,
+                                                                                            'interval': INTERVAL })
+                    print(r.status_code, r.reason)
+
+
                 running_loss += float(loss.detach().item())
                 if i % log_interval == 0:
                     self._logger.info('[%d, %5d] loss: %.3f' % (epoch, i, running_loss / log_interval))
@@ -167,9 +193,13 @@ class Client(object):
 
                 curr_time = time.time()
                 time_taken = curr_time - start
-                if time_taken > 60:
+                
+                """
+                if time_taken > 10:
                     print('TRAINING FOR 1 MINUTE DONE')
+                    exit(0)
                     return final_running_loss # DONE
+                """
 
             self.scheduler.step()
 

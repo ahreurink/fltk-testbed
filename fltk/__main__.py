@@ -30,8 +30,12 @@ def __main__():
         logging.info("Starting in cluster mode.")
         cluster_start(arguments, config)
     elif arguments.mode == 'client':
-        logging.info("Starting in client mode")
-        client_start(arguments, config)
+        logging.info("Starting in client mode MODE")
+        print('CLIENT MODE')
+        try:
+            client_start(arguments, config)
+        except Exception as e:
+            logging.info("ERROR", e)
         logging.info("Stopping client...")
         exit(0)
     elif arguments.mode == 'extractor':

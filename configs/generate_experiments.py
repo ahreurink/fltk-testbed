@@ -6,8 +6,6 @@ CONVOLUTIONAL_LAYERS = 'convolutionalLayers'
 CONVOLUTIONAL_FILTERS = 'convolutionalFilters'
 LINEAR_LAYERS = 'linearLayers'
 LINEAR_LAYERS_PARAMETERS = 'linearLayerParameters'
-CORES = 'coresPerNode'
-NR_NODES = 'dataParallelism'
 BATCH_SIZE = 'batchSize'
 IMAGE_SIZE = 'imageSize'
 
@@ -23,11 +21,11 @@ def generate_experiment_config(experiment_table):
                         "dataset": "NONE"
                     },
                     "systemParameters": {
-                        "dataParallelism": int(experiment[NR_NODES]),
-                        "executorCores": "750m",
+                        "dataParallelism": "2",
+                        "executorCores": "2", # 750m
                         "executorMemory": "1Gi",
                         "action": "train",
-                        "coresPerNode": int(experiment[CORES])
+                        "coresPerNode": "0"
                     },
                     "hyperParameters": {
                         "batchSize": int(experiment[BATCH_SIZE]),
@@ -48,7 +46,7 @@ def generate_experiment_config(experiment_table):
                         }
                     ]
                 }
-            for experiment in experiments],
+                for experiment in experiments],
             "lambda": 20,
             "preemptJobs": 0
         }
@@ -76,7 +74,7 @@ def main():
     signs = {key: ['-', '+'] for key, _, _ in [line.strip().split(',') for line in lines]}
 
     experiments = generate_table(parameters)
-    sign_table = generate_table(signs)
+    # sign_table = generate_table(signs)
     # pd.set_option("display.max_rows", None, "display.max_columns", None)
     # print(sign_table)
     generate_experiment_config(experiments)
@@ -84,3 +82,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+

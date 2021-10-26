@@ -1,8 +1,6 @@
-convolutionalLayers,2,6
-convolutionalFilters,16,128
+convolutionalLayers,1,4
+convolutionalFilters,64,256
 imageSize,8,32
 linearLayers,1,4
-linearLayerParameters,64,512
-coresPerNode,1,4
-dataParallelism,1,4
+linearLayerParameters,64,1024
 batchSize,1,32
